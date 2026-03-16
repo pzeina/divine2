@@ -1,10 +1,9 @@
-cmake_minimum_required(VERSION 2.4.7)
+cmake_minimum_required(VERSION 3.10)
 project( divine )
 
 set( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake" )
 
 if(COMMAND cmake_policy)
-  cmake_policy(SET CMP0002 OLD) # FIXME
   cmake_policy(SET CMP0003 NEW)
 endif(COMMAND cmake_policy)
 
@@ -153,7 +152,7 @@ add_subdirectory( wibble )
 if( HOARD )
   add_subdirectory( hoard )
 endif( HOARD )
-add_subdirectory( lpsolve )
+# add_subdirectory( lpsolve )  # Disabled for minimal installation
 
 find_program( BYACC "byacc" )
 find_package( FLEX )
@@ -187,9 +186,9 @@ if( LCOV )
 endif( LCOV )
 
 add_dependencies( check lcovd-unit )
-add_dependencies( check functional )
+# add_dependencies( check functional )  # Disabled - functional target from test/ is not built
 
-add_subdirectory( test )
+# add_subdirectory( test )  # Disabled for minimal installation
 
 # FIXME: better dependency detection
 if( WIN32 )

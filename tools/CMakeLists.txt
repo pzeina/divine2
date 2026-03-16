@@ -39,12 +39,13 @@ install( TARGETS divine
                  divine.simulate
          DESTINATION ${INSTALL_BIN_DEST} COMPONENT console_tools )
 
-if( NOT WIN32 )
-  # This code uses raw pthreads, so no-go on win32.
-  add_executable( divine.probabilistic probabilistic.cpp )
-  target_link_libraries( divine.probabilistic lpsolve )
-  install( TARGETS divine.probabilistic DESTINATION ${INSTALL_BIN_DEST} COMPONENT console_tools )
-endif( NOT WIN32 )
+# if( NOT WIN32 )
+#   # This code uses raw pthreads, so no-go on win32.
+#   # Disabled for minimal installation - depends on lpsolve
+#   add_executable( divine.probabilistic probabilistic.cpp )
+#   target_link_libraries( divine.probabilistic lpsolve )
+#   install( TARGETS divine.probabilistic DESTINATION ${INSTALL_BIN_DEST} COMPONENT console_tools )
+# endif( NOT WIN32 )
 
 install( PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/divine.compile-pml DESTINATION ${INSTALL_BIN_DEST} COMPONENT console_tools )
 

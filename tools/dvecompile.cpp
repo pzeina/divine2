@@ -2466,8 +2466,13 @@ void dve_compiler::gen_transition_info()
     block_end();
     line();
 
+    line("#if defined(__clang__) && defined(__has_warning)");
+    line("#if __has_warning(\"-Waddress-of-array-temporary\")");
     line("#pragma clang diagnostic push");
     line("#pragma clang diagnostic ignored \"-Waddress-of-array-temporary\"");
+    line("#define DVE_ADDR_ARRAY_TMP_DIAG_PUSHED 1");
+    line("#endif");
+    line("#endif");
     buf = fmtf("int* guards_per_transition[%zu] = ", transitions.size() );
     line(buf);
     block_begin();
@@ -2487,7 +2492,10 @@ void dve_compiler::gen_transition_info()
         }
     block_end();
     line(";");    
+    line("#if defined(DVE_ADDR_ARRAY_TMP_DIAG_PUSHED)");
     line("#pragma clang diagnostic pop");
+    line("#undef DVE_ADDR_ARRAY_TMP_DIAG_PUSHED");
+    line("#endif");
     line();
     
     // export the guards per transition group
